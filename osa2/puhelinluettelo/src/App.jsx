@@ -99,15 +99,25 @@ const App = () => {
                     setNewName('')
                     setNewNumber('')
                 })
-                .catch(() => {
-                    setMessage({
-                        text: `Information of ${existingPerson.name} has already been removed from server`,
-                        type: 'error'
-                    })
-                    setTimeout(() => {
-                        setMessage(null)
-                    }, 5000)
-                    setPersons(persons.filter(person => person.id !== existingPerson.id))
+                .catch((error) => {
+                    if (error.response && error.response.data && error.response.data.error) {
+                        setMessage({
+                            text: error.response.data.error,
+                            type: 'error'
+                        })
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
+                    } else {
+                        setMessage({
+                            text: `Information of ${existingPerson.name} has already been removed from server`,
+                            type: 'error'
+                        })
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
+                        setPersons(persons.filter(person => person.id !== existingPerson.id))
+                    }
                 })
             return
         }
@@ -125,6 +135,15 @@ const App = () => {
                 }, 5000)
                 setNewName('')
                 setNewNumber('')
+            })
+            .catch((error) => {
+                setMessage({
+                    text: error.response.data.error,
+                    type: 'error'
+                })
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
             })
     }
 
