@@ -24,6 +24,9 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+    defaults:
+      run:
+        working-directory: osa13/bloglist-sql-backend
 
     steps:
       - uses: actions/checkout@v4
